@@ -62,9 +62,7 @@ int main(int argc, char **argv) {
 		{ .name = "CRC32C", .digest = hash_crc32c, .digest_size = 4 },
 		{ .name = "XXHASH", .digest = hash_xxhash, .digest_size = 8 },
 		{ .name = "BLAKE2b", .digest = hash_blake2b, .digest_size = 32 },
-		{ .name = "BLAKE3-port", .digest = hash_blake3, .digest_size = 32 },
-		{ .name = "BLAKE3-SSE41", .digest = hash_blake3_sse41, .digest_size = 32 },
-		{ .name = "BLAKE3-AVX2", .digest = hash_blake3_avx2, .digest_size = 32 },
+		{ .name = "BLAKE3", .digest = hash_blake3, .digest_size = 32 },
 	};
 
 	if (argc > 1) {

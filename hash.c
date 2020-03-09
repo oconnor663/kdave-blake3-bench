@@ -4,13 +4,6 @@
 #include "blake2.h"
 #include "blake3.h"
 
-void blake3_hasher_update_portable(blake3_hasher *self, const void *input,
-		size_t input_len);
-void blake3_hasher_update_sse41(blake3_hasher *self, const void *input,
-		size_t input_len);
-void blake3_hasher_update_avx2(blake3_hasher *self, const void *input,
-		size_t input_len);
-
 int hash_crc32c(const u8* buf, size_t length, u8 *out)
 {
 	u32 crc = ~0;
@@ -51,29 +44,7 @@ int hash_blake3(const u8 *buf, size_t len, u8 *out)
 	blake3_hasher state;
 
 	blake3_hasher_init(&state);
-	blake3_hasher_update_portable(&state, buf, len);
-	blake3_hasher_finalize(&state, out, CRYPTO_HASH_SIZE_MAX);
-
-	return 0;
-}
-
-int hash_blake3_sse41(const u8 *buf, size_t len, u8 *out)
-{
-	blake3_hasher state;
-
-	blake3_hasher_init(&state);
-	blake3_hasher_update_sse41(&state, buf, len);
-	blake3_hasher_finalize(&state, out, CRYPTO_HASH_SIZE_MAX);
-
-	return 0;
-}
-
-int hash_blake3_avx2(const u8 *buf, size_t len, u8 *out)
-{
-	blake3_hasher state;
-
-	blake3_hasher_init(&state);
-	blake3_hasher_update_avx2(&state, buf, len);
+	blake3_hasher_update(&state, buf, len);
 	blake3_hasher_finalize(&state, out, CRYPTO_HASH_SIZE_MAX);
 
 	return 0;
