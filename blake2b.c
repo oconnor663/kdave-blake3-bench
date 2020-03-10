@@ -1,5 +1,3 @@
-#pragma GCC target("avx2")
-
 #include <stddef.h>
 #include <stdint.h>
 #include <stdlib.h>
