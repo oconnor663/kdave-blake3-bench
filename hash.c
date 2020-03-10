@@ -2,6 +2,7 @@
 #include "crc32c.h"
 #include "xxhash.h"
 #include "blake2.h"
+#include "blake2b.h"
 #include "blake3.h"
 
 int hash_crc32c(const u8* buf, size_t length, u8 *out)
@@ -30,11 +31,11 @@ int hash_xxhash(const u8 *buf, size_t length, u8 *out)
 
 int hash_blake2b(const u8 *buf, size_t len, u8 *out)
 {
-	blake2b_state S;
-
-	blake2b_init(&S, CRYPTO_HASH_SIZE_MAX);
-	blake2b_update(&S, buf, len);
-	blake2b_final(&S, out, CRYPTO_HASH_SIZE_MAX);
+    // A BLAKE2b hash is 64 bytes long. This implementation doesn't support the
+    // BLAKE2 output length parameter, so for this benchmark we just truncate it.
+    u8 wide_out[BLAKE2B_OUTBYTES];
+    blake2b(wide_out, buf, len);
+    memcpy(out, wide_out, CRYPTO_HASH_SIZE_MAX);
 
 	return 0;
 }
